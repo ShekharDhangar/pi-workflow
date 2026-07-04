@@ -122,6 +122,8 @@ provider your Pi install exposes.
 | `pi-workflow.workflow-reviewer` | Review loop + judgment | Strong |
 | `pi-workflow.workflow-reflect` | Distill learnings → project skill | Strong |
 
+Worker is intentionally **prompt-only for now** — the implementation role is already strongly shaped by the task file, acceptance output, and coding guidelines.
+
 **Where to edit:**
 
 | Scope | File |
@@ -186,6 +188,10 @@ Both casts share the same `agentOverrides` mechanism in Pi settings.
 | `prompts/pi-workflow.md` | `/pi-workflow` router — spec and run |
 | `prompts/` | the orchestration — `pi-workflow.md`, `workflow-issue.md`, `workflow-feature.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
 | `agents/` | `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` · `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
+| `skills/workflow-scout/` | recon heuristics for workflow-scout |
+| `skills/workflow-planner/` | task slicing + acceptance coverage for workflow-planner |
+| `skills/workflow-reviewer/` | evidence-first review heuristics for workflow-reviewer |
+| `skills/workflow-reflect/` | durable learning extraction for workflow-reflect |
 | `skills/research-coach/` | requirements → fan-out → synthesizer iteration (sufficient ≠ stop); `/workflow-feature` |
 | `skills/writing-great-skills/` | skill-authoring reference ([Matt Pocock](https://github.com/mattpocock/skills)); invoke when writing or editing package skills |
 | `templates/research-agent-models.example.json` | merge into `.pi/settings.json` — research cast models |

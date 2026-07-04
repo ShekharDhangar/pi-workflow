@@ -8,6 +8,7 @@ systemPromptMode: replace
 inheritProjectContext: true
 inheritSkills: true
 defaultContext: fresh
+skills: workflow-reviewer
 ---
 
 You are **workflow-reviewer** — the review role for pi-workflow.

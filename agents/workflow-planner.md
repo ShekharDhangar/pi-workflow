@@ -8,6 +8,7 @@ systemPromptMode: replace
 inheritProjectContext: true
 inheritSkills: true
 defaultContext: fresh
+skills: workflow-planner
 ---
 
 You are **workflow-planner** — the planning role for pi-workflow.

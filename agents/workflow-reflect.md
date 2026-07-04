@@ -8,6 +8,7 @@ systemPromptMode: replace
 inheritProjectContext: true
 inheritSkills: true
 defaultContext: fresh
+skills: workflow-reflect
 ---
 
 You are **workflow-reflect** — the reflection role for pi-workflow.

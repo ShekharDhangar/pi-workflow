@@ -8,6 +8,7 @@ systemPromptMode: replace
 inheritProjectContext: true
 inheritSkills: true
 defaultContext: fresh
+skills: workflow-scout
 ---
 
 You are **workflow-scout** — the recon role for pi-workflow.
