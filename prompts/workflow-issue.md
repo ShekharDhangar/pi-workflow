@@ -11,7 +11,7 @@ Call `set_stage` (flow: "issue") at each transition. Follow `AGENTS.md` and `con
 If the working tree has **uncommitted changes, stop and ask me**. Otherwise: `git switch -c pi-workflow/<slug>`.
 
 ## 1. Spec  → `set_stage("issue", "Spec")`
-**Greenfield vs brownfield:** `pi-workflow.workflow-scout` the codebase — is the affected code new or does something depend on it?
+**Greenfield vs brownfield:** use `pi-workflow.workflow-scout` — is the affected code new or does something depend on it?
 - **Greenfield** → breaking changes fine, no shims, no deprecation wrappers, implement cleanly. Record `greenfield: yes` in Intent.
 - **Brownfield** → note what must not break in Out of Scope.
 - **Only ask me** if you've determined something depends on the touched code: "This touches [X], which [Y] depends on. Does it need to remain backward-compatible?" I will tell you whether to maintain compat or treat as greenfield. Do not ask if the code is clearly new.
@@ -36,7 +36,7 @@ Per task in order:
 - `pi-workflow.workflow-worker` implements the task (code + unit/behaviour tests). A new task discovered mid-flight gets its own `task-NN.md` first.
 - **Verify** after every 5 completed tasks and at the end (≤5 tasks → end only):
   - **(a) Acceptance.** Call `check_acceptance` — its exit code is the verdict. FAIL → feed real output to `pi-workflow.workflow-worker`, fix, re-run.
-  - **(b) Judgment.** Fresh-context `pi-workflow.workflow-reviewer` via `/review-loop` against `review-rubric.md`. Adds findings; cannot override a FAIL.
+  - **(b) Judgment.** Fresh-context `pi-workflow.workflow-reviewer` via `/review-loop` against `prompts/review-rubric.md`. Adds findings; cannot override a FAIL.
 
 **Stop on ANY of:**
 1. **Done** — Acceptance met and final verify passes.

@@ -11,7 +11,7 @@ Call `set_stage` (flow: "feature") at each transition. Follow `AGENTS.md` and `c
 If the working tree has **uncommitted changes, stop and ask me**. Otherwise: `git switch -c pi-workflow/<slug>`.
 
 ## 1. Brainstorm  → `set_stage("feature", "Brainstorm")`
-- **Greenfield vs brownfield:** `pi-workflow.workflow-scout` the codebase before the first question — is the affected code new or does something depend on it? Greenfield → breaking changes fine, no shims, implement cleanly; record `greenfield: yes` in Intent. Brownfield → note compat constraints in Out of Scope. **Only ask me** if you've determined something depends on the touched code: "This touches [X], which [Y] depends on. Does it need to remain backward-compatible?" I will answer. Do not ask if the code is clearly new.
+- **Greenfield vs brownfield:** use `pi-workflow.workflow-scout` before the first question — is the affected code new or does something depend on it? Greenfield → breaking changes fine, no shims, implement cleanly; record `greenfield: yes` in Intent. Brownfield → note compat constraints in Out of Scope. **Only ask me** if you've determined something depends on the touched code: "This touches [X], which [Y] depends on. Does it need to remain backward-compatible?" I will answer. Do not ask if the code is clearly new.
 - **Interview me** one first-principles question at a time. If the problem is too big, ask me to break it down.
 - **Engineering research** (non-trivial direction): load **`research-coach` skill** before `spec.md` — full Phases 0–5; parent never synthesizes inline. Skip for obvious small scope.
 - **Problem sharpening** (optional, ambiguous *whether* to build): interactive **`pi-workflow.researcher-orchestrator`** for Phase 0 only — Hamming check before fan-out.
@@ -23,7 +23,7 @@ If the working tree has **uncommitted changes, stop and ask me**. Otherwise: `gi
 Same as the issue workflow: `pi-workflow.workflow-planner` → multi-file `plan/` + `tracker.md`, gap-fill (cross-check every testable condition in `acceptance.sh` against tasks; add missing `task-NN.md` files), then **pause for my plan approval**.
 
 ## 3. Implement  → `set_stage("feature", "Implement · task N/total")`
-Same as the issue workflow.
+Same as the issue workflow: `pi-workflow.workflow-worker` implements, `check_acceptance` verifies, and `pi-workflow.workflow-reviewer` judges against `prompts/review-rubric.md`.
 
 ## 4. Done → pause for my review
 Write `.pi/work/<slug>/gate3.md` and **stop**. Do not commit/push until I authorise it.

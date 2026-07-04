@@ -35,7 +35,12 @@ The **first word** chooses the mode:
 1. Require an existing slug and the frozen spec artifacts (`spec.md`, `acceptance.sh`, `.frozen`).
 2. Rehydrate from `.pi/work/<slug>/status.md`, `failure-ledger.md`, `plan/tracker.md`, and the latest spawn logs.
 3. Set `set_stage("run", "Recovery")` if the work is resuming from FAILED; otherwise start at `set_stage("run", "Plan")`.
-4. Plan, implement, verify, review, commit, then reflect, updating the footer as the run advances.
+4. Use the package workflow agents explicitly:
+   - `pi-workflow.workflow-scout` for recon when context is missing or stale
+   - `pi-workflow.workflow-planner` for plan generation and gap-fill
+   - `pi-workflow.workflow-worker` for implementation and gate-response rounds
+   - `pi-workflow.workflow-reviewer` for read-only judgment against `prompts/review-rubric.md`
+   - `pi-workflow.workflow-reflect` for durable learnings after the work passes
 5. If the work hits the fix-round cap and ends `FAILED`, stop. The human can open `/pi-workflow run <slug>` again to inspect and continue in a fresh Pi session.
 6. Do not start from scratch unless the disk state is missing or explicitly reset.
 
