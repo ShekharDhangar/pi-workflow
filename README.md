@@ -1,25 +1,35 @@
 # pi-workflow
 
-A small, verifier-centered engineering workflow for [pi](https://pi.dev), built on
+A small, verifier-centered engineering **loop** for [pi](https://pi.dev), built on
 [`pi-subagents`](https://github.com/nicobailon/pi-subagents).
 
-> **Set an executable target, then an unattended verify-fix loop runs against it** — on a branch,
+> **Set an executable target, then a role-driven verify-fix loop runs against it** — on a branch,
 > fenced by a guardrail hook, capped by a budget, with a deterministic verifier that can't be faked
 > or weakened. The model is your stand-in's tool; the *verifier* is what lets you leave the room.
 
 ## Why
 
 Orchestration is the commodity part of a coding harness; the **verifier sets the quality ceiling.**
-So pi-workflow keeps the loop thin (prompts the parent follows, like `pi-subagents`' `/review-loop`)
-and puts the engineering into the thing that determines whether autonomy is safe: the acceptance check.
+So pi-workflow is intentionally built around one simple loop:
+
+1. interactively define the work and freeze the executable target
+2. run the work through dedicated package roles
+3. let acceptance drive the verify-fix loop
+4. stop at human gates instead of pretending judgment is certainty
+
+The prompts, agents, skills, rubric, and hook all exist to keep that loop predictable.
 
 ## What it is
 
-- **One workflow router** (prompt template): `/pi-workflow spec` (interactive spec phase) and `/pi-workflow run`
-  (resume an approved item), plus the existing `/workflow-issue` and `/workflow-feature` paths.
-  Each drives the relevant loop autonomously, pausing only at human gates.
+- **An interactive spec/freeze entrypoint:** `/pi-workflow spec <text>` writes `.pi/work/<slug>/spec.md`
+  and `.pi/work/<slug>/acceptance.sh`, runs the red-green check, and freezes the target only after human approval.
+- **A role-driven run loop:** `/pi-workflow run <slug>` resumes the approved item using explicit package agents —
+  `pi-workflow.workflow-scout`, `pi-workflow.workflow-planner`, `pi-workflow.workflow-worker`,
+  `pi-workflow.workflow-reviewer`, and `pi-workflow.workflow-reflect`.
 - **A deterministic verifier** (`check_acceptance` tool): the acceptance verdict is the *real exit
   code* of a project-defined `acceptance.sh`, not a model's opinion — so a model can't hallucinate "PASS."
+- **A review contract:** `prompts/review-rubric.md` sets review order; `prompts/coding-guidelines.md`
+  is explicitly carried by planner / worker / reviewer; project `AGENTS.md` and `constitution.md` still win locally.
 - **Anti-reward-hack defenses:** you approve the target before work; the test must fail-then-pass
   (red-green); once approved it's **frozen** (the hook blocks edits to it); you can seed examples.
 - **Branch isolation:** every work item runs on `pi-workflow/<slug>`; the loop never touches `main`
@@ -83,11 +93,16 @@ cp /path/to/pi-workflow/templates/AGENTS.template.md ./AGENTS.md
 
 ## Usage
 
-In any project with pi-workflow installed and `AGENTS.md` bootstrapped:
+In any project with pi-workflow installed and `AGENTS.md` bootstrapped, the core loop is:
 
-```
+```text
 /pi-workflow spec add user API with validation
 /pi-workflow run add-user-api
+```
+
+You can still use the direct wrappers when you want the older shaped entrypoints:
+
+```text
 /workflow-issue fix the broken README install link
 /workflow-feature add user-facing settings for dark mode
 /research-coach event-driven sync for MFD profile updates
@@ -112,7 +127,7 @@ provider your Pi install exposes.
 | `pi-workflow.pi-researcher-web` | Web/practitioner angles | Mid |
 | `pi-workflow.pi-researcher-synthesis` | Synthesis pass 1 + 2 | Strongest |
 
-**Workflow cast** (`/pi-workflow`, `/workflow-issue`, and `/workflow-feature` — package workflow agents):
+**Workflow cast** (`/pi-workflow`, `/workflow-issue`, and `/workflow-feature` — the loop's package workflow agents):
 
 | Agent | Role | Typical tier |
 |-------|------|--------------|
@@ -122,7 +137,7 @@ provider your Pi install exposes.
 | `pi-workflow.workflow-reviewer` | Review loop + judgment | Strong |
 | `pi-workflow.workflow-reflect` | Distill learnings → project skill | Strong |
 
-Planner, worker, and reviewer all explicitly carry the package coding guidelines. Reviewer also explicitly reads `prompts/review-rubric.md`. Worker remains prompt-only in the sense that it has no dedicated worker-specific skill yet.
+Planner, worker, and reviewer all explicitly carry the package coding guidelines. Reviewer also explicitly reads `prompts/review-rubric.md`. Together these shape the run loop, while project-local `AGENTS.md` and `constitution.md` provide repo-specific rules.
 
 **Where to edit:**
 
@@ -185,9 +200,9 @@ Both casts share the same `agentOverrides` mechanism in Pi settings.
 | `cast-settings.ts` | shared TUI for `/research-cast` and `/workflow-cast` |
 | `research-cast.ts` | `/research-cast` — research cast model picker |
 | `workflow-cast.ts` | `/workflow-cast` — workflow-scout / planner / worker / reviewer / reflect model picker |
-| `prompts/pi-workflow.md` | `/pi-workflow` router — spec and run |
-| `prompts/` | the orchestration — `pi-workflow.md`, `workflow-issue.md`, `workflow-feature.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
-| `agents/` | `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` · `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
+| `prompts/pi-workflow.md` | `/pi-workflow` router — spec/freeze and run/resume |
+| `prompts/` | loop orchestration — `pi-workflow.md`, `workflow-issue.md`, `workflow-feature.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
+| `agents/` | the loop roles — `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` — plus research agents |
 | `skills/workflow-scout/` | recon heuristics for workflow-scout |
 | `skills/workflow-planner/` | task slicing + acceptance coverage for workflow-planner |
 | `skills/workflow-reviewer/` | evidence-first review heuristics for workflow-reviewer |
