@@ -5,11 +5,11 @@ import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { type CastAgent, registerCastCommand } from "./cast-settings.ts";
 
 const WORKFLOW_CAST: CastAgent[] = [
-  { short: "scout", runtime: "scout", label: "Scout", role: "Codebase recon (greenfield/brownfield)", thinking: false },
-  { short: "planner", runtime: "planner", label: "Planner", role: "Read-only plan + task breakdown", thinking: true, defaultThinking: "medium" },
-  { short: "worker", runtime: "worker", label: "Worker", role: "Implement tasks", thinking: false },
-  { short: "reviewer", runtime: "reviewer", label: "Reviewer", role: "Review loop + judgment", thinking: true, defaultThinking: "high" },
-  { short: "reflect", runtime: "reflect", label: "Reflect", role: "Distill learnings → project skill (auto/loop)", thinking: true, defaultThinking: "medium" },
+  { short: "scout", runtime: "pi-workflow.workflow-scout", label: "Scout", role: "Codebase recon (greenfield/brownfield)", thinking: false },
+  { short: "planner", runtime: "pi-workflow.workflow-planner", label: "Planner", role: "Read-only plan + task breakdown", thinking: true, defaultThinking: "medium" },
+  { short: "worker", runtime: "pi-workflow.workflow-worker", label: "Worker", role: "Implement tasks", thinking: false },
+  { short: "reviewer", runtime: "pi-workflow.workflow-reviewer", label: "Reviewer", role: "Review loop + judgment", thinking: true, defaultThinking: "high" },
+  { short: "reflect", runtime: "pi-workflow.workflow-reflect", label: "Reflect", role: "Distill learnings → project skill", thinking: true, defaultThinking: "medium" },
 ];
 
 export function registerWorkflowCastCommand(pi: ExtensionAPI): void {

@@ -108,7 +108,7 @@ Expect: Scout, Planner, Worker, Reviewer, Reflect assignments and settings paths
 ```
 
 Expect: overlay with Save to, model per agent, thinking rows for Planner/Reviewer.
-Writes `subagents.agentOverrides["scout"|"planner"|"worker"|"reviewer"|"reflect"]`.
+Writes `subagents.agentOverrides["pi-workflow.workflow-scout"|"pi-workflow.workflow-planner"|"pi-workflow.workflow-worker"|"pi-workflow.workflow-reviewer"|"pi-workflow.workflow-reflect"]`.
 
 ```text
 /workflow-cast worker

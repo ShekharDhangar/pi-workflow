@@ -112,15 +112,15 @@ provider your Pi install exposes.
 | `pi-workflow.pi-researcher-web` | Web/practitioner angles | Mid |
 | `pi-workflow.pi-researcher-synthesis` | Synthesis pass 1 + 2 | Strongest |
 
-**Workflow cast** (`/pi-workflow`, `/workflow-issue`, and `/workflow-feature` — pi-subagents builtins):
+**Workflow cast** (`/pi-workflow`, `/workflow-issue`, and `/workflow-feature` — package workflow agents):
 
 | Agent | Role | Typical tier |
 |-------|------|--------------|
-| `scout` | Codebase recon (greenfield/brownfield) | Fast/cheap |
-| `planner` | Read-only plan + task breakdown | Mid |
-| `worker` | Implement tasks | Strong |
-| `reviewer` | Review loop + judgment | Strong |
-| `reflect` | Distill learnings → project skill | Strong |
+| `pi-workflow.workflow-scout` | Codebase recon (greenfield/brownfield) | Fast/cheap |
+| `pi-workflow.workflow-planner` | Read-only plan + task breakdown | Mid |
+| `pi-workflow.workflow-worker` | Implement tasks | Strong |
+| `pi-workflow.workflow-reviewer` | Review loop + judgment | Strong |
+| `pi-workflow.workflow-reflect` | Distill learnings → project skill | Strong |
 
 **Where to edit:**
 
@@ -141,7 +141,8 @@ provider your Pi install exposes.
 ```
 
 Copy `templates/research-agent-models.example.json` or `templates/workflow-agent-models.example.json`
-into your settings file (merge the `subagents` block). Replace `REPLACE provider/model` with ids
+into your settings file (merge the `subagents` block). Workflow override keys are the package agent runtimes
+(`pi-workflow.workflow-scout`, `pi-workflow.workflow-planner`, `pi-workflow.workflow-worker`, `pi-workflow.workflow-reviewer`, `pi-workflow.workflow-reflect`). Replace `REPLACE provider/model` with ids
 from your registry, e.g. `openai/gpt-5-mini`, `anthropic/claude-haiku-4-5`, `ollama/qwen2.5-coder`.
 Optional thinking: `"thinking": "high"` or append `:low|:medium|:high` when your provider supports it.
 
@@ -169,7 +170,7 @@ Copy `templates/pi-workflow.research.profile.example.json` to
 
 ```text
 /subagents-models pi-workflow.pi-researcher-synthesis
-/subagents-models worker
+/subagents-models pi-workflow.workflow-worker
 ```
 
 Both casts share the same `agentOverrides` mechanism in Pi settings.
@@ -181,10 +182,10 @@ Both casts share the same `agentOverrides` mechanism in Pi settings.
 | `index.ts` | the extension: guardrail hook · frozen-acceptance enforcement · `set_stage` footer · `check_acceptance` |
 | `cast-settings.ts` | shared TUI for `/research-cast` and `/workflow-cast` |
 | `research-cast.ts` | `/research-cast` — research cast model picker |
-| `workflow-cast.ts` | `/workflow-cast` — Scout/Planner/Worker/Reviewer/Reflect model picker |
+| `workflow-cast.ts` | `/workflow-cast` — workflow-scout / planner / worker / reviewer / reflect model picker |
 | `prompts/pi-workflow.md` | `/pi-workflow` router — spec and run |
 | `prompts/` | the orchestration — `pi-workflow.md`, `workflow-issue.md`, `workflow-feature.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
-| `agents/` | `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
+| `agents/` | `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` · `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
 | `skills/research-coach/` | requirements → fan-out → synthesizer iteration (sufficient ≠ stop); `/workflow-feature` |
 | `skills/writing-great-skills/` | skill-authoring reference ([Matt Pocock](https://github.com/mattpocock/skills)); invoke when writing or editing package skills |
 | `templates/research-agent-models.example.json` | merge into `.pi/settings.json` — research cast models |

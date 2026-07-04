@@ -18,7 +18,7 @@ A small pi **extension + prompt templates**, not an application. Milestone 1 shi
 | `research-cast.ts` | `/research-cast` TUI — research cast model picker |
 | `workflow-cast.ts` | `/workflow-cast` TUI — Scout/Planner/Worker/Reviewer/Reflect |
 | `prompts/` | `/pi-workflow`, `/workflow-issue`, `/workflow-feature`, `review-rubric`, `/research-coach` orchestration |
-| `agents/` | `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
+| `agents/` | `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` · `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
 | `skills/research-coach/` | orchestrator → local/web fan-out → synthesis iteration (sufficient ≠ stop); feature brainstorm |
 | `skills/writing-great-skills/` | reference for authoring skills (Matt Pocock); invoke when editing skills/agents/prompts here |
 | `templates/research-brief.template.md` | brief schema for Phase 0 |

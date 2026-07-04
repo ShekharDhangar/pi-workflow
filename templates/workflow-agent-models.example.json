@@ -1,21 +1,21 @@
 {
   "subagents": {
     "agentOverrides": {
-      "scout": {
+      "pi-workflow.workflow-scout": {
         "model": "REPLACE provider/cheap-model"
       },
-      "planner": {
+      "pi-workflow.workflow-planner": {
         "model": "REPLACE provider/mid-model",
         "thinking": "medium"
       },
-      "worker": {
+      "pi-workflow.workflow-worker": {
         "model": "REPLACE provider/strong-model"
       },
-      "reviewer": {
+      "pi-workflow.workflow-reviewer": {
         "model": "REPLACE provider/strong-model",
         "thinking": "high"
       },
-      "reflect": {
+      "pi-workflow.workflow-reflect": {
         "model": "REPLACE provider/mid-model",
         "thinking": "medium"
       }

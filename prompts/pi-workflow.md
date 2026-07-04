@@ -8,7 +8,7 @@ You are orchestrating the pi-workflow for `$ARGUMENTS`.
 The **first word** chooses the mode:
 
 - `spec` — interactive spec authoring: brainstorm, ask one question at a time, write `spec.md` + `acceptance.sh`, red-green until the gate fails on unchanged code, then freeze and stop.
-- `run` — execute an already-approved work item from disk: plan → implement/fix-rounds → verify → review → commit → reflect.
+- `run` — execute an already-approved work item from disk using the dedicated agents `pi-workflow.workflow-scout`, `pi-workflow.workflow-planner`, `pi-workflow.workflow-worker`, `pi-workflow.workflow-reviewer`, and `pi-workflow.workflow-reflect`.
 
 ## Shared rules
 
