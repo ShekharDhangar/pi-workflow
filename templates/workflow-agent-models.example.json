@@ -1,0 +1,24 @@
+{
+  "subagents": {
+    "agentOverrides": {
+      "scout": {
+        "model": "REPLACE provider/cheap-model"
+      },
+      "planner": {
+        "model": "REPLACE provider/mid-model",
+        "thinking": "medium"
+      },
+      "worker": {
+        "model": "REPLACE provider/strong-model"
+      },
+      "reviewer": {
+        "model": "REPLACE provider/strong-model",
+        "thinking": "high"
+      },
+      "reflect": {
+        "model": "REPLACE provider/mid-model",
+        "thinking": "medium"
+      }
+    }
+  }
+}

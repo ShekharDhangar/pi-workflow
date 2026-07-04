@@ -1,0 +1,59 @@
+{
+  "name": "@shekhardhangar/pi-workflow",
+  "version": "0.1.10",
+  "description": "A verifier-centered, prompt-driven engineering workflow for pi: set an executable target, then an unattended verify-fix loop runs against it — on a branch, fenced by a guardrail hook, with a deterministic verifier that can't be faked or weakened.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Shekhar Dhangar",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShekharDhangar/pi-workflow.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ShekharDhangar/pi-workflow/issues"
+  },
+  "homepage": "https://github.com/ShekharDhangar/pi-workflow#readme",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "workflow",
+    "verifier",
+    "acceptance",
+    "engineering"
+  ],
+  "files": [
+    "index.ts",
+    "research-cast.ts",
+    "workflow-cast.ts",
+    "cast-settings.ts",
+    "prompts/**/*.md",
+    "agents/**/*.md",
+    "skills/**/*.md",
+    "templates/AGENTS.template.md",
+    "templates/research-brief.template.md",
+    "templates/research-agent-models.example.json",
+    "templates/workflow-agent-models.example.json",
+    "templates/pi-workflow.research.profile.example.json",
+    "README.md",
+    "SMOKE-TEST.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "smoke": "echo 'See SMOKE-TEST.md'"
+  },
+  "pi": {
+    "extensions": ["./index.ts"],
+    "prompts": ["./prompts"],
+    "skills": ["./skills"],
+    "subagents": {
+      "agents": ["./agents"]
+    }
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "typebox": "*"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "subagents": {
+    "agentOverrides": {
+      "pi-workflow.researcher-orchestrator": {
+        "model": "REPLACE provider/model",
+        "thinking": "high"
+      },
+      "pi-workflow.pi-researcher-local": {
+        "model": "REPLACE provider/cheap-model"
+      },
+      "pi-workflow.pi-researcher-web": {
+        "model": "REPLACE provider/mid-model"
+      },
+      "pi-workflow.pi-researcher-synthesis": {
+        "model": "REPLACE provider/strong-model",
+        "thinking": "high"
+      }
+    }
+  }
+}

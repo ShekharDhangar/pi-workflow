@@ -1,0 +1,22 @@
+{
+  "subagents": {
+    "defaultModel": "REPLACE_WITH_YOUR_DEFAULT provider/model",
+    "agentOverrides": {
+      "pi-workflow.researcher-orchestrator": {
+        "model": "REPLACE provider/model",
+        "thinking": "high"
+      },
+      "pi-workflow.pi-researcher-local": {
+        "model": "REPLACE provider/model"
+      },
+      "pi-workflow.pi-researcher-web": {
+        "model": "REPLACE provider/model"
+      },
+      "pi-workflow.pi-researcher-synthesis": {
+        "model": "REPLACE provider/model",
+        "thinking": "high",
+        "fallbackModels": ["REPLACE provider/fallback-model"]
+      }
+    }
+  }
+}
