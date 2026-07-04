@@ -122,7 +122,7 @@ provider your Pi install exposes.
 | `pi-workflow.workflow-reviewer` | Review loop + judgment | Strong |
 | `pi-workflow.workflow-reflect` | Distill learnings → project skill | Strong |
 
-Worker is intentionally **prompt-only for now** — the implementation role is already strongly shaped by the task file, acceptance output, and coding guidelines.
+Planner, worker, and reviewer all explicitly carry the package coding guidelines. Reviewer also explicitly reads `prompts/review-rubric.md`. Worker remains prompt-only in the sense that it has no dedicated worker-specific skill yet.
 
 **Where to edit:**
 

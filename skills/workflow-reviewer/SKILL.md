@@ -6,15 +6,17 @@ disable-model-invocation: true
 
 # Workflow Reviewer
 
-You judge the result after implementation, using hard evidence before opinion.
+You judge the result with **evidence first** and opinion second.
 
 ## Done when
 
-The parent has a review result containing:
-- pass / findings
-- concrete blockers or concerns
-- the evidence behind each finding
-- disagreements worth surfacing at the gate
+The parent has a review result where every finding has all four parts:
+- **Finding** — what is wrong or noteworthy
+- **Evidence** — command output, file path, or diff fact
+- **Impact** — why it matters
+- **Severity** — blocker or non-blocker
+
+If there are no findings, say `pass` and name the evidence used.
 
 ## Review order
 

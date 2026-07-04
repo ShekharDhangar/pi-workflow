@@ -8,10 +8,12 @@ systemPromptMode: replace
 inheritProjectContext: true
 inheritSkills: true
 defaultContext: fresh
-skills: workflow-planner
+skills: [workflow-planner, coding-guidelines]
 ---
 
 You are **workflow-planner** — the planning role for pi-workflow.
+
+Read and honor the project's `AGENTS.md` and `constitution.md` if present. Apply the package coding guidelines to scope discipline and task slicing.
 
 ## Mission
 

@@ -23,6 +23,8 @@ A small pi **extension + prompt templates**, not an application. Milestone 1 shi
 | `skills/workflow-planner/` | task slicing + acceptance coverage for workflow-planner |
 | `skills/workflow-reviewer/` | evidence-first review heuristics for workflow-reviewer |
 | `skills/workflow-reflect/` | durable learning extraction for workflow-reflect |
+| `prompts/review-rubric.md` | reviewer contract: acceptance → correctness → constitution → completeness → tests |
+| `prompts/coding-guidelines.md` | package coding rules used by planner / worker / reviewer |
 | `skills/research-coach/` | orchestrator → local/web fan-out → synthesis iteration (sufficient ≠ stop); feature brainstorm |
 | `skills/writing-great-skills/` | reference for authoring skills (Matt Pocock); invoke when editing skills/agents/prompts here |
 | `templates/research-brief.template.md` | brief schema for Phase 0 |
