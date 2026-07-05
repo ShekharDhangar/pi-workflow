@@ -20,8 +20,8 @@ These rules are not aspirational — apply them, and when tempted to break one, 
 - **Match the surrounding code.** Follow the file's existing style, naming, and patterns even if you'd personally do it differently. Consistency beats personal preference.
 
 ### Structure
-- **Flatten control flow.** Prefer guard clauses and early returns over nested `if`/`else`. Max ~2 levels of nesting — beyond that, extract a function.
-- **Avoid `if`/`else` ladders.** Replace long `if/else if/else` chains and nested conditionals with: early returns, a lookup map/table, or polymorphism. A chain testing the same variable is a map waiting to happen.
+- **Prefer zero `else`.** Default to guard clauses, early returns, `continue`, and small helper functions so the happy path stays flat. Treat introducing `else` as a smell that needs justification.
+- **Flatten control flow.** Max ~2 levels of nesting — beyond that, extract a function. A chain testing the same variable is a lookup map waiting to happen.
 - **Avoid nested loops.** Extract the inner loop into a named function, or restructure with a map/set lookup. Nested loops hide both complexity and O(n²) cost.
 - **One job per unit.** Each function/module does one thing with a clear name, a narrow interface, and is understandable and testable on its own. A growing file is a signal it does too much — split it.
 - **Right-size the solution.** If you wrote 200 lines and it could be 50, rewrite it. More code than the problem needs is a cost, not thoroughness.
@@ -50,7 +50,7 @@ These rules are not aspirational — apply them, and when tempted to break one, 
 
 - A number or string literal with meaning instead of a named constant
 - An empty catch, or a catch that only logs-and-continues past a real error
-- Code indented 3+ levels deep, or an `if/else if/else` chain 3+ branches long
+- Code indented 3+ levels deep, or control flow that needs `else` where guard clauses would do
 - A parameter, option, or config added "in case we need it later"
 - A clever one-liner that would need a comment to explain
 - Edits/reformatting unrelated to the task

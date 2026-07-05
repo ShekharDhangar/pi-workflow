@@ -131,15 +131,15 @@ function setAgentOverride(
 
   if (patch.model !== undefined) {
     if (patch.model === null || patch.model === INHERIT_MODEL) delete current.model;
-    else current.model = patch.model;
+    if (patch.model !== null && patch.model !== INHERIT_MODEL) current.model = patch.model;
   }
   if (patch.thinking !== undefined) {
     if (patch.thinking === null) delete current.thinking;
-    else current.thinking = patch.thinking;
+    if (patch.thinking !== null) current.thinking = patch.thinking;
   }
 
   if (Object.keys(current).length === 0) delete overrides[runtime];
-  else overrides[runtime] = current;
+  if (Object.keys(current).length !== 0) overrides[runtime] = current;
 
   writeSettings(filePath, settings);
 }
@@ -336,7 +336,7 @@ function createCastHandlers(config: CastCommandConfig, pi: ExtensionAPI) {
         getSettingsListTheme(),
         (id, newValue) => {
           if (id === "scope") draft.set("scope", newValue);
-          else draft.set(id, newValue);
+          if (id !== "scope") draft.set(id, newValue);
           persistDraft();
           ctx.ui.notify(`Saved ${id}`, "info");
         },

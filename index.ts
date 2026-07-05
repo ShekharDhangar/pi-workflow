@@ -357,10 +357,9 @@ export default function (pi: ExtensionAPI) {
       return;
     }
 
-    let target: string | undefined;
-    if (isToolCallEventType("write", event)) target = event.input.path;
-    else if (isToolCallEventType("edit", event)) target = event.input.path;
-    if (target === undefined) return;
+    const writesPath = isToolCallEventType("write", event) || isToolCallEventType("edit", event);
+    if (!writesPath) return;
+    const target = event.input.path;
 
     const abs = isAbsolute(target) ? target : resolve(ctx.cwd, target);
 
@@ -448,7 +447,9 @@ export default function (pi: ExtensionAPI) {
         const body = r.finalOutput ?? r.output ?? textFallback;
         if (body.trim()) dumpTargets.push({ abs, body });
       });
-    } else {
+    }
+
+    if (!results.length) {
       const outputPath = typeof input.output === "string" ? input.output : undefined;
       if (outputPath) {
         const abs = absFromCwd(ctx.cwd, outputPath);
