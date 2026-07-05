@@ -109,11 +109,40 @@ function gitAddTouchesWorkflowArtifacts(cmd: string): boolean {
   return /(^|\s)(?:\.pi\/work\/|--force\s+\.pi\/work\/|-f\s+\.pi\/work\/)/.test(cmd);
 }
 
+function readJsonFile(path: string): Record<string, unknown> | null {
+  if (!existsSync(path)) return null;
+  try {
+    return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
+  } catch {
+    return null;
+  }
+}
+
+function extensionSettingsObject(settings: Record<string, unknown> | null): Record<string, unknown> | null {
+  if (!settings || typeof settings !== "object") return null;
+  const direct = settings.piWorkflow;
+  if (direct && typeof direct === "object") return direct as Record<string, unknown>;
+  const extensions = settings.extensions;
+  if (!extensions || typeof extensions !== "object") return null;
+  const scoped = (extensions as Record<string, unknown>)["@shekhardhangar/pi-workflow"];
+  if (scoped && typeof scoped === "object") return scoped as Record<string, unknown>;
+  return null;
+}
+
+function allowEditsOnMainSetting(cwd: string): boolean {
+  const projectSettings = extensionSettingsObject(readJsonFile(join(cwd, ".pi", "settings.json")));
+  if (typeof projectSettings?.allowEditsOnMain === "boolean") return projectSettings.allowEditsOnMain;
+  const userSettings = extensionSettingsObject(readJsonFile(join(homedir(), ".pi", "agent", "settings.json")));
+  if (typeof userSettings?.allowEditsOnMain === "boolean") return userSettings.allowEditsOnMain;
+  return false;
+}
+
 function workflowBranchReason(cwd: string, absPath: string): string | null {
   if (isWorkflowArtifactPath(cwd, absPath)) return null;
+  if (allowEditsOnMainSetting(cwd)) return null;
   const branch = currentBranch(cwd);
   if (!isProtectedBaseBranch(branch)) return null;
-  return `workflow edits must not happen on ${branch}; create a branch before changing repo files`;
+  return `workflow edits must not happen on ${branch}; create a branch before changing repo files (or set piWorkflow.allowEditsOnMain=true)`;
 }
 
 // ---- Research artifact enforcement (research-coach workflow) ---------------------------

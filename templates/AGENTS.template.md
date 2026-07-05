@@ -18,7 +18,9 @@ Copy this file to your project root as `AGENTS.md` and edit the constitution sec
 Acceptance pass/fail is **deterministic**: `check_acceptance` runs `acceptance.sh` and the real exit code is the verdict — no agent may declare acceptance met over a `check_acceptance` FAIL. A model reviewer adds judgment but cannot override the deterministic result.
 
 ## Branch isolation
-Every work item runs on `pi-workflow/<slug>` — **never pushes** (extension blocks `git push`), never touches `main`. Dirty working tree at start → stop and ask.
+Every work item runs on `pi-workflow/<slug>` — **never pushes** (extension blocks `git push`), and by default does not edit `main` / `master`. Dirty working tree at start → stop and ask.
+
+If your repo deliberately allows edits on the base branch, set `piWorkflow.allowEditsOnMain: true` in Pi settings. Project `.pi/settings.json` overrides the user default.
 
 ## Human gates
 Approve the **target** (`acceptance.sh` + spec for `/pi-workflow spec`, or spec on the feature path) before implementation · plan approval · final review + merge/push. Between approvals, implementation runs **autonomously** — disagreements are logged for the final review.

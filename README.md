@@ -32,8 +32,7 @@ The prompts, agents, skills, rubric, and hook all exist to keep that loop predic
   is explicitly carried by planner / worker / reviewer; project `AGENTS.md` and `constitution.md` still win locally.
 - **Anti-reward-hack defenses:** you approve the target before work; the test must fail-then-pass
   (red-green); once approved it's **frozen** (the hook blocks edits to it); you can seed examples.
-- **Branch isolation:** every work item runs on `pi-workflow/<slug>`; the loop never touches `main`
-  and the hook blocks `git push`. You review the branch diff and merge.
+- **Branch isolation:** every work item runs on `pi-workflow/<slug>`; by default the loop does not edit `main`/`master`, and the hook blocks `git push`. You review the branch diff and merge.
 - **Guardrail hook:** blocks edits to sensitive paths (`.env`, lockfiles, `constitution.md`) — and,
   because `pi-subagents` children auto-load this extension, it governs every child agent too.
 
@@ -68,6 +67,34 @@ pi install -l /path/to/pi-workflow
 ```
 
 Writes to `.pi/settings.json`; teammates get the same package after trusting the project.
+
+### Optional setting: allow edits on main/master
+
+By default, pi-workflow blocks normal repo-file edits on `main` / `master` and expects work to happen on a branch. You can relax that with either:
+
+```json
+{
+  "piWorkflow": {
+    "allowEditsOnMain": true
+  }
+}
+```
+
+or:
+
+```json
+{
+  "extensions": {
+    "@shekhardhangar/pi-workflow": {
+      "allowEditsOnMain": true
+    }
+  }
+}
+```
+
+Place it in:
+- `~/.pi/agent/settings.json` for your default
+- `.pi/settings.json` for a project override (wins)
 
 ### Try without installing
 
