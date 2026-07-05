@@ -1,11 +1,11 @@
 # pi-workflow (milestone 1) — smoke test
 
-Confirms the only two things that must be code: the **guardrail hook** (incl. spike #1 — children
-inherit it) and the **`set_stage`** footer tool. Orchestration itself is the prompt templates.
+Confirms the package's code-backed pieces still work: the **guardrail hook** (including child
+inheritance), the **`set_stage`** footer tool, and the simplified `/pi-workflow spec` router.
 
 ## Setup
 ```bash
-mkdir -p ~/tmp/pc-test && cd ~/tmp/pc-test
+mkdir -p ~/tmp/pi-workflow-test && cd ~/tmp/pi-workflow-test
 pi install -l ~/code/pi-workflow          # or: pi install -l git:github.com/ShekharDhangar/pi-workflow
 cp ~/code/pi-workflow/templates/AGENTS.template.md ./AGENTS.md
 git init -q
@@ -40,15 +40,13 @@ Expect the footer shows `pi-workflow ⋮ Brainstorm → Spec → ▶Freeze`.
 ```
 /pi-workflow spec the README has a broken link to the install docs
 ```
-Expect: it writes `.pi/work/<slug>/spec.md` (Intent·Context·Acceptance), asks questions, writes
-`acceptance.sh`, **pauses for approval at freeze**, and the footer tracks stages. You don't have to
-finish it — you're confirming the router prompt orchestrates pi-subagents and pauses at the gate.
+Expect: it scouts first, stays in **direct spec mode** for a small clear change, writes `.pi/work/<slug>/spec.md` (Intent·Context·Out of Scope·Acceptance), writes `acceptance.sh`, **pauses for approval at freeze**, and the footer tracks stages. You don't have to finish it — you're confirming the router prompt orchestrates the spec path and pauses at the gate.
 
 | Result | Meaning |
 |---|---|
-| Test 2 shows a child pid, write blocked | ✅ spike #1 — children inherit the guardrail |
-| Test 1 blocks .env/lockfile, allows src | ✅ protected scoping correct (sensitive-only in M1) |
-| Test 4 pauses at freeze/approval | ✅ prompt-driven orchestration + gates work |
+| Test 2 shows a child pid, write blocked | ✅ children inherit the guardrail |
+| Test 1 blocks .env/lockfile, allows src | ✅ protected scoping correct |
+| Test 4 pauses at freeze/approval | ✅ simplified spec router + gates work |
 
 ## Test 5 — research hook blocks synthesizer without angle files
 ```bash

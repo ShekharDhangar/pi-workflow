@@ -21,7 +21,7 @@ The prompts, agents, skills, rubric, and hook all exist to keep that loop predic
 
 ## What it is
 
-- **An interactive spec/freeze entrypoint:** `/pi-workflow spec <text>` writes `.pi/work/<slug>/spec.md`
+- **An interactive spec/freeze entrypoint:** `/pi-workflow spec <text>` scouts first, chooses direct spec or brainstorm mode, writes `.pi/work/<slug>/spec.md`
   and `.pi/work/<slug>/acceptance.sh`, runs the red-green check, and freezes the target only after human approval.
 - **A role-driven run loop:** `/pi-workflow run <slug>` resumes the approved item using explicit package agents —
   `pi-workflow.workflow-scout`, `pi-workflow.workflow-planner`, `pi-workflow.workflow-worker`,
@@ -100,7 +100,11 @@ In any project with pi-workflow installed and `AGENTS.md` bootstrapped, the core
 /pi-workflow run add-user-api
 ```
 
-For non-trivial direction during spec shaping, use:
+`/pi-workflow spec` chooses the shaping depth inside one command:
+- **direct spec mode** for a clear bugfix or small change
+- **brainstorm spec mode** for ambiguous or non-trivial work
+
+For deeper direction during spec shaping, use:
 
 ```text
 /research-coach event-driven sync for MFD profile updates
