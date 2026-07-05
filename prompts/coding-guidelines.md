@@ -21,6 +21,7 @@ These rules are not aspirational — apply them, and when tempted to break one, 
 
 ### Structure
 - **Prefer zero `else`.** Default to guard clauses, early returns, `continue`, and small helper functions so the happy path stays flat. Treat introducing `else` as a smell that needs justification.
+- **When branching grows past two cases, prefer `switch` or a lookup map.** Do not build `else if` ladders for 3+ branches unless there is a very strong readability reason.
 - **Flatten control flow.** Max ~2 levels of nesting — beyond that, extract a function. A chain testing the same variable is a lookup map waiting to happen.
 - **Avoid nested loops.** Extract the inner loop into a named function, or restructure with a map/set lookup. Nested loops hide both complexity and O(n²) cost.
 - **One job per unit.** Each function/module does one thing with a clear name, a narrow interface, and is understandable and testable on its own. A growing file is a signal it does too much — split it.
@@ -50,7 +51,7 @@ These rules are not aspirational — apply them, and when tempted to break one, 
 
 - A number or string literal with meaning instead of a named constant
 - An empty catch, or a catch that only logs-and-continues past a real error
-- Code indented 3+ levels deep, or control flow that needs `else` where guard clauses would do
+- Code indented 3+ levels deep, control flow that needs `else` where guard clauses would do, or 3+ branch logic written as an `else if` ladder instead of `switch` / lookup
 - A parameter, option, or config added "in case we need it later"
 - A clever one-liner that would need a comment to explain
 - Edits/reformatting unrelated to the task
