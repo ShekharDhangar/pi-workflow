@@ -13,14 +13,15 @@ git init -q
 pi                                        # accept project trust so .pi/ loads
 ```
 
-## Test 1 — hook blocks sensitive paths, allows normal ones (parent)
+## Test 1 — hook blocks sensitive paths and base-branch repo edits (parent)
 ```
 Use the write tool to write "x" to ./.env
 Use the write tool to write "x" to ./package-lock.json
+Use the write tool to write "x" to ./.pi/work/smoke/spec.md
 Use the write tool to write "x" to ./src/foo.ts
 ```
-Expect: `.env` and `package-lock.json` **blocked**; `src/foo.ts` **allowed**.
-`cat ~/.pi/pi-workflow-hook.log` → shows the three attempts with blocked true/true/false.
+Expect: `.env` and `package-lock.json` **blocked**; `.pi/work/smoke/spec.md` **allowed**; `src/foo.ts` **blocked on main/master** until you create a branch.
+`cat ~/.pi/pi-workflow-hook.log` → shows the attempts with blocked true/true/false/true.
 
 ## Test 2 — SPIKE #1: hook also fires in a CHILD process
 ```
@@ -45,10 +46,21 @@ Expect: it scouts first, stays in **direct spec mode** for a small clear change,
 | Result | Meaning |
 |---|---|
 | Test 2 shows a child pid, write blocked | ✅ children inherit the guardrail |
-| Test 1 blocks .env/lockfile, allows src | ✅ protected scoping correct |
+| Test 1 blocks .env/lockfile and repo edits on main/master | ✅ protected scoping correct |
 | Test 4 pauses at freeze/approval | ✅ simplified spec router + gates work |
 
-## Test 5 — research hook blocks synthesizer without angle files
+## Test 5 — git refuses workflow artifacts in commits
+```bash
+mkdir -p .pi/work/commit-smoke
+printf 'temp\n' > .pi/work/commit-smoke/spec.md
+git add -f .pi/work/commit-smoke/spec.md
+```
+```
+Use the bash tool to run `git commit -m "bad"`
+```
+Expect: **blocked** — hook says workflow artifacts are staged and must be unstaged before commit.
+
+## Test 6 — research hook blocks synthesizer without angle files
 ```bash
 mkdir -p .pi/work/research-smoke/research
 printf '# Research brief\n' > .pi/work/research-smoke/research-brief.md
@@ -70,7 +82,7 @@ Use subagent with tasks: [{agent: "pi-workflow.pi-researcher-web", task: "find p
 ```
 Expect: blocked — must set `output` to `.pi/work/<slug>/research/angle-<name>.md`.
 
-## Test 6 — `/research-cast` (TUI only)
+## Test 7 — `/research-cast` (TUI only)
 
 In an interactive Pi session with pi-workflow loaded:
 
@@ -93,7 +105,7 @@ Changing a value writes `subagents.agentOverrides["pi-workflow.<name>"]` to the 
 
 Expect: searchable model list from `ctx.modelRegistry.getAvailable()`.
 
-## Test 7 — `/workflow-cast` (TUI only)
+## Test 8 — `/workflow-cast` (TUI only)
 
 ```text
 /workflow-cast status

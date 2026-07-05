@@ -17,7 +17,7 @@ import { isToolCallEventType } from "@earendil-works/pi-coding-agent";
 import { registerResearchCastCommand } from "./research-cast.ts";
 import { registerWorkflowCastCommand } from "./workflow-cast.ts";
 import { Type } from "typebox";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { appendFileSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, dirname, isAbsolute, join, resolve } from "node:path";
@@ -67,6 +67,53 @@ function logHook(entry: Record<string, unknown>): void {
   try {
     appendFileSync(HOOK_LOG, JSON.stringify({ ts: new Date().toISOString(), pid: process.pid, ...entry }) + "\n");
   } catch { /* logging must never break the agent */ }
+}
+
+function isWithinDir(absPath: string, dir: string): boolean {
+  return absPath === dir || absPath.startsWith(dir + "/");
+}
+
+function workflowRoot(cwd: string): string {
+  return join(cwd, ".pi", "work");
+}
+
+function isWorkflowArtifactPath(cwd: string, absPath: string): boolean {
+  return isWithinDir(absPath, workflowRoot(cwd));
+}
+
+function gitOutput(cwd: string, args: string[]): string | null {
+  const result = spawnSync("git", args, { cwd, encoding: "utf8" });
+  if (result.status !== 0) return null;
+  return result.stdout.trim();
+}
+
+function currentBranch(cwd: string): string | null {
+  return gitOutput(cwd, ["branch", "--show-current"]);
+}
+
+function isProtectedBaseBranch(branch: string | null): boolean {
+  return branch === "main" || branch === "master";
+}
+
+function stagedWorkflowArtifacts(cwd: string): string[] {
+  const out = gitOutput(cwd, ["diff", "--cached", "--name-only"]);
+  if (!out) return [];
+  return out
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.startsWith(".pi/work/"));
+}
+
+function gitAddTouchesWorkflowArtifacts(cmd: string): boolean {
+  if (!/\bgit\s+add\b/.test(cmd)) return false;
+  return /(^|\s)(?:\.pi\/work\/|--force\s+\.pi\/work\/|-f\s+\.pi\/work\/)/.test(cmd);
+}
+
+function workflowBranchReason(cwd: string, absPath: string): string | null {
+  if (isWorkflowArtifactPath(cwd, absPath)) return null;
+  const branch = currentBranch(cwd);
+  if (!isProtectedBaseBranch(branch)) return null;
+  return `workflow edits must not happen on ${branch}; create a branch before changing repo files`;
 }
 
 // ---- Research artifact enforcement (research-coach workflow) ---------------------------
@@ -354,6 +401,17 @@ export default function (pi: ExtensionAPI) {
         logHook({ cwd: ctx.cwd, tool: "bash", path: cmd, blocked: true });
         return { block: true, reason: "pi-workflow: `git push` is human-authorized — the loop works on a branch; review and push after gate 3." };
       }
+      if (gitAddTouchesWorkflowArtifacts(cmd)) {
+        logHook({ cwd: ctx.cwd, tool: "bash", path: cmd, blocked: true, reason: "git-add-workflow-artifacts" });
+        return { block: true, reason: "pi-workflow: do not stage .pi/work artifacts. They are local workflow state, not commit material." };
+      }
+      if (/\bgit\s+commit\b/.test(cmd)) {
+        const staged = stagedWorkflowArtifacts(ctx.cwd);
+        if (staged.length) {
+          logHook({ cwd: ctx.cwd, tool: "bash", path: cmd, blocked: true, reason: "git-commit-workflow-artifacts", staged });
+          return { block: true, reason: `pi-workflow: workflow artifacts are staged (${staged.join(", ")}). Unstage .pi/work/** before committing.` };
+        }
+      }
       return;
     }
 
@@ -373,7 +431,7 @@ export default function (pi: ExtensionAPI) {
       }
     }
 
-    const reason = protectReason(abs) ?? frozenAcceptanceReason(abs);
+    const reason = protectReason(abs) ?? frozenAcceptanceReason(abs) ?? workflowBranchReason(ctx.cwd, abs);
     logHook({ cwd: ctx.cwd, tool: event.toolName, path: abs, blocked: reason !== null });
     if (reason) return { block: true, reason: `pi-workflow: ${abs} — ${reason}.` };
   });
