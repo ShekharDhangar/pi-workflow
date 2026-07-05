@@ -15,11 +15,9 @@ Three **supervised** commands (unchanged) plus one **autonomous** path:
 
 | Path | Entry | Human? |
 |------|-------|--------|
-| **Autonomous spec** | `/pi-workflow spec <text>` | Interactive Pi — to-and-fro until you approve |
+| **Autonomous spec** | `/pi-workflow spec <text>` | Interactive Pi — direct spec or brainstorm until you approve |
 | **Autonomous run (Pi)** | `/pi-workflow run <slug>` | No — new Pi session, fresh context |
 | **Autonomous run (shell)** | `workflow run <slug>` | No — headless script, walk away |
-| **Supervised issue** | `/workflow-issue <text>` | Yes — plan + final review gates |
-| **Supervised feature** | `/workflow-feature <text>` | Yes — brainstorm + spec + plan + final gates |
 
 Autonomous = **one human gate** (approve spec + `acceptance.sh` in Phase 1). Phase 2 is fully
 unattended until optional `--mr`.
@@ -147,16 +145,14 @@ workflow run <slug> --mr
 # status.md DONE → .mr-approved → push → gh pr create
 ```
 
-## Supervised paths (unchanged)
+## Interactive spec shaping
 
-**`/workflow-issue`** — no brainstorm. Scout → spec → **you approve plan** → implement in same
-session → **you review** at end (`gate3.md`). Freeze at **plan** approval.
+**`/pi-workflow spec`** chooses the shaping depth inside one command.
 
-**`/workflow-feature`** — brainstorm + research-coach → **you approve spec** (freeze) → plan →
-**you approve plan** → implement → **you approve commit**. Multiple manual pauses; stays in Pi.
+- **Direct spec mode** — no extra brainstorm. Scout → spec when the target is already clear.
+- **Brainstorm spec mode** — scout + research/questions before spec when discovery is still needed.
 
-Use these when you want to stay in the chair. Use `/pi-workflow spec` + run when you want approve-once
-then walk away.
+After spec approval and freeze, use `/pi-workflow run <slug>` when you want the unattended phase.
 
 ## Run comparison (Phase 2)
 
@@ -225,7 +221,7 @@ Autonomous path locks acceptance at **spec approve** (Phase 1):
 3. Write `.pi/work/<slug>/.frozen`.
 4. Phase 2 runs **without** plan approval pause.
 
-(`/workflow-issue` freezes at **plan** approval instead.)
+(`/pi-workflow` now freezes at spec approval via `/pi-workflow spec`.)
 
 ## Safety invariant
 
@@ -291,7 +287,7 @@ models via `/workflow-cast` (no `defaultModel` fallback for run). Required at ru
 
 - Shell command for spec phase
 - Auto-starting Phase 2 from spec session
-- Replacing `/workflow-issue` or `/workflow-feature`
+- Splitting spec shaping back into separate issue/feature entrypoints
 - `/pi-workflow` as the user-facing command name (use `/pi-workflow spec`)
 
 ## Open risks (accepted)

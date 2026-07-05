@@ -20,13 +20,21 @@ The **first word** chooses the mode:
 
 ## If mode = `spec`
 
-1. Call `set_stage("spec", "Brainstorm")`, then load `research-coach` when the task is not obviously trivial.
-2. Ask one first-principles question at a time.
-3. Call `set_stage("spec", "Spec")` and write `.pi/work/<slug>/spec.md` with Intent · Context · Out of Scope · Acceptance.
-4. Write `.pi/work/<slug>/acceptance.sh` so it fails on unchanged code and passes only when the spec is met.
-5. Run `check_acceptance` on the unchanged codebase — it **must FAIL**.
-6. Iterate until the human approves the spec and `acceptance.sh`.
-7. Call `set_stage("spec", "Freeze")`, write `.pi/work/<slug>/.frozen`, then stop and print the next step options:
+1. Call `set_stage("spec", "Brainstorm")`.
+2. Use `pi-workflow.workflow-scout` first to judge the touched area:
+   - greenfield → keep the shape direct and simple
+   - brownfield or ambiguous → ask compatibility questions only if something already depends on the touched area
+3. Decide the shaping depth:
+   - **direct spec mode** for a clear bugfix or small change
+   - **brainstorm spec mode** for a feature, ambiguous problem, or non-trivial direction
+4. In brainstorm spec mode, load `research-coach` when the direction is not obviously trivial. Ask one first-principles question at a time; do not synthesize inline if the research flow is active.
+5. Call `set_stage("spec", "Spec")` and write `.pi/work/<slug>/spec.md` with Intent · Context · Out of Scope · Acceptance.
+   - Record `greenfield: yes` in Intent when the touched area is clearly new.
+   - In Out of Scope, explicitly name what must not break or be touched.
+6. Write `.pi/work/<slug>/acceptance.sh` so it fails on unchanged code and passes only when the spec is met.
+7. Run `check_acceptance` on the unchanged codebase — it **must FAIL**.
+8. Iterate until the human approves the spec and `acceptance.sh`.
+9. Call `set_stage("spec", "Freeze")`, write `.pi/work/<slug>/.frozen`, then stop and print the next step options:
    - `/pi-workflow run <slug>` — fresh Pi session
    - `workflow run <slug>` — shell / headless runner
 

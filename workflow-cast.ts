@@ -1,5 +1,5 @@
 // /workflow-cast — interactive model picker for pi-workflow workflow agents.
-// Used by /workflow-issue, /workflow-feature, and /pi-workflow.
+// Used by /pi-workflow.
 
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { type CastAgent, registerCastCommand } from "./cast-settings.ts";
@@ -17,7 +17,7 @@ export function registerWorkflowCastCommand(pi: ExtensionAPI): void {
     command: "workflow-cast",
     title: "Workflow cast",
     subtitle: "Scout · Planner · Worker · Reviewer · Reflect",
-    description: "Configure workflow models for /workflow-issue, /workflow-feature, and /pi-workflow (spec/run)",
+    description: "Configure workflow models for /pi-workflow (spec/run)",
     agents: WORKFLOW_CAST,
     statusTip: "Tip: /workflow-cast settings for the interactive picker.",
     templatePath: "templates/workflow-agent-models.example.json",

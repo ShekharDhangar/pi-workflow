@@ -2,7 +2,7 @@
 name: research-coach
 description: >
   Research-coach — software-engineering research: requirements, fan-out, synthesizer iteration (sufficient ≠ optimal).
-  Use when designing features, systems, pipelines, or migrations; /research-coach; /workflow-feature brainstorm pre-spec.
+  Use when designing features, systems, pipelines, or migrations; /research-coach; /pi-workflow spec brainstorm mode before spec freeze.
 ---
 
 # Research Coach (software engineering)
@@ -158,7 +158,7 @@ Gaps + budget → targeted fan-out → new angle files → **fresh** pass 3 synt
 
 **Done when:** user has seen — each tied to brief success criteria — recommendation, ≥1 composite, simplest-sufficient variant, spikes, residual risks.
 
-Read `research-synthesis.md`. Present to user. In `/workflow-feature`, feed into `spec.md` — do not freeze until approved.
+Read `research-synthesis.md`. Present to user. In `/pi-workflow spec`, feed into `spec.md` — do not freeze until approved.
 
 Parent orchestrates only. **Never** merge findings inline.
 
@@ -168,7 +168,7 @@ Parent orchestrates only. **Never** merge findings inline.
 
 - Feature, system, pipeline, migration, architecture design
 - `/research-coach <topic>`
-- `/workflow-feature` brainstorm — after pi-researcher-local (if brownfield), before spec freeze
+- `/pi-workflow spec` brainstorm mode — after pi-researcher-local (if brownfield), before spec freeze
 
 **Skip:** obvious bugs, typos, frozen spec with clear acceptance.
 

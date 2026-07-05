@@ -3,10 +3,8 @@
 Copy this file to your project root as `AGENTS.md` and edit the constitution section for your repo.
 
 ## The loop
-- `/pi-workflow spec <text>` — interactive spec phase: brainstorm → spec → acceptance → freeze (then choose `/pi-workflow run` or `workflow run`).
+- `/pi-workflow spec <text>` — interactive spec phase: scout → direct spec or brainstorm → `acceptance.sh` → approval → freeze (then choose `/pi-workflow run` or `workflow run`).
 - `/pi-workflow run <slug>` — resume an approved work item in a fresh Pi session.
-- `/workflow-issue <text>` — direct path: spec → plan → (approve) → implement → review → (approve) → commit.
-- `/workflow-feature <text>` — full path: brainstorm → (approve spec) → plan → (approve) → implement → review → (approve) → commit.
 - `/research-coach <text>` — researcher-orchestrator (requirements) → pi-researcher-local + pi-researcher-web (`research/angle-*.md`) → **pi-researcher-synthesis** pass 1 + pass 2. First pass may be sufficient; second pass improves. Parent never synthesizes inline.
 - Orchestration is **parent-driven** (the workflow prompt is guidance, not a runtime engine).
 - Models per role: set explicit `subagents.agentOverrides.<runtime>.model` in `~/.pi/agent/settings.json` or `.pi/settings.json` (no fallback to `defaultModel` for auto/loop). Use `/research-cast settings` (research cast) or `/workflow-cast settings` (Scout/Planner/Worker/Reviewer/Reflect), or copy `templates/research-agent-models.example.json` / `templates/workflow-agent-models.example.json`. Use any provider/model your Pi install exposes — not hardcoded by pi-workflow. Never set an `extensions:` field on an agent — it disables extension discovery and drops pi-workflow's guardrails in that child.

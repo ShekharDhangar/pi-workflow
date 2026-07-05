@@ -100,11 +100,9 @@ In any project with pi-workflow installed and `AGENTS.md` bootstrapped, the core
 /pi-workflow run add-user-api
 ```
 
-You can still use the direct wrappers when you want the older shaped entrypoints:
+For non-trivial direction during spec shaping, use:
 
 ```text
-/workflow-issue fix the broken README install link
-/workflow-feature add user-facing settings for dark mode
 /research-coach event-driven sync for MFD profile updates
 ```
 
@@ -158,7 +156,7 @@ provider your Pi install exposes.
 | `pi-workflow.pi-researcher-web` | Web/practitioner angles | Mid |
 | `pi-workflow.pi-researcher-synthesis` | Synthesis pass 1 + 2 | Strongest |
 
-**Workflow cast** (`/pi-workflow`, `/workflow-issue`, and `/workflow-feature` — the loop's package workflow agents):
+**Workflow cast** (`/pi-workflow` — the loop's package workflow agents):
 
 | Agent | Role | Typical tier |
 |-------|------|--------------|
@@ -232,13 +230,13 @@ Both casts share the same `agentOverrides` mechanism in Pi settings.
 | `research-cast.ts` | `/research-cast` — research cast model picker |
 | `workflow-cast.ts` | `/workflow-cast` — workflow-scout / planner / worker / reviewer / reflect model picker |
 | `prompts/pi-workflow.md` | `/pi-workflow` router — spec/freeze and run/resume |
-| `prompts/` | loop orchestration — `pi-workflow.md`, `workflow-issue.md`, `workflow-feature.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
+| `prompts/` | loop orchestration — `pi-workflow.md`, `review-rubric.md`, `coding-guidelines.md`, `research-coach.md` |
 | `agents/` | the loop roles — `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` — plus research agents |
 | `skills/workflow-scout/` | recon heuristics for workflow-scout |
 | `skills/workflow-planner/` | task slicing + acceptance coverage for workflow-planner |
 | `skills/workflow-reviewer/` | evidence-first review heuristics for workflow-reviewer |
 | `skills/workflow-reflect/` | durable learning extraction for workflow-reflect |
-| `skills/research-coach/` | requirements → fan-out → synthesizer iteration (sufficient ≠ stop); `/workflow-feature` |
+| `skills/research-coach/` | requirements → fan-out → synthesizer iteration (sufficient ≠ stop); `/pi-workflow spec` brainstorm mode |
 | `skills/writing-great-skills/` | skill-authoring reference ([Matt Pocock](https://github.com/mattpocock/skills)); invoke when writing or editing package skills |
 | `templates/research-agent-models.example.json` | merge into `.pi/settings.json` — research cast models |
 | `templates/workflow-agent-models.example.json` | merge into `.pi/settings.json` — workflow cast models |

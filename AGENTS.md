@@ -17,7 +17,7 @@ A small pi **extension + prompt templates**, not an application. Milestone 1 shi
 | `cast-settings.ts` | Shared TUI + settings persistence for cast commands |
 | `research-cast.ts` | `/research-cast` TUI — research cast model picker |
 | `workflow-cast.ts` | `/workflow-cast` TUI — Scout/Planner/Worker/Reviewer/Reflect |
-| `prompts/` | `/pi-workflow`, `/workflow-issue`, `/workflow-feature`, `review-rubric`, `/research-coach` orchestration |
+| `prompts/` | `/pi-workflow`, `review-rubric`, `/research-coach` orchestration |
 | `agents/` | `workflow-scout` · `workflow-planner` · `workflow-worker` · `workflow-reviewer` · `workflow-reflect` · `researcher-orchestrator` · `pi-researcher-local` · `pi-researcher-web` · `pi-researcher-synthesis` |
 | `skills/workflow-scout/` | recon heuristics for workflow-scout |
 | `skills/workflow-planner/` | task slicing + acceptance coverage for workflow-planner |
@@ -36,7 +36,7 @@ Orchestration is **prompt-driven** (parent follows workflow prompts). Code only 
 
 ## Working in this repo
 
-- **Do not** use `/pi-workflow`, `/workflow-issue`, or `/workflow-feature` here unless explicitly testing the smoke path — this repo is the harness source, not a consumer project.
+- **Do not** use `/pi-workflow` here unless explicitly testing the smoke path — this repo is the harness source, not a consumer project.
 - Prefer surgical edits: extension logic in `index.ts`, orchestration in `prompts/`, docs in `README.md` / `SMOKE-TEST.md`.
 - When authoring or refactoring skills, agents, or prompts in this package, invoke **`writing-great-skills`** first (user-invoked reference skill).
 - Run smoke checks from `SMOKE-TEST.md` after hook or verifier changes.
@@ -48,8 +48,8 @@ Orchestration is **prompt-driven** (parent follows workflow prompts). Code only 
 
 Downstream projects install the package globally or per-project, copy `templates/AGENTS.template.md` → `AGENTS.md`, then run:
 
-- `/workflow-issue <text>` — spec → plan → (approve) → implement → review → (approve) → commit
-- `/workflow-feature <text>` — brainstorm → (approve spec) → plan → (approve) → implement → review → (approve) → commit
+- `/pi-workflow spec <text>` — interactive spec phase: scout → direct spec or brainstorm → approval → freeze
+- `/pi-workflow run <slug>` — plan → implement → review → reflect on the approved work item
 
 Artifacts live under `.pi/work/<slug>/`: `spec.md`, **`acceptance.sh`**, `plan/`, `reviews/`, `gate3.md`.
 
