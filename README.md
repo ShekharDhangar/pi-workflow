@@ -110,7 +110,38 @@ You can still use the direct wrappers when you want the older shaped entrypoints
 
 For **software-engineering research**: `/research-coach` — `pi-researcher-web` fan-out uses **practitioner sources** (blogs, docs, GitHub, forums) by default, not academic papers unless you ask. `pi-researcher-synthesis` runs pass 1 + pass 2 over cumulative outputs.
 
-See `templates/AGENTS.template.md` for the full loop, artifacts, gates, and verifier rules.
+See `templates/AGENTS.template.md` for the full loop, artifacts, gates, verifier rules, and project-local MR review policy.
+
+## Optional: memory-backed MR review
+
+pi-workflow can support a **manual, MR-only reviewer** that reads:
+- the PR/MR diff
+- the full checked-out repo
+- project rules (`AGENTS.md`, `constitution.md`)
+- optional project memory such as Hindsight
+
+This reviewer should be treated as **advisory judgment**, not the acceptance gate. `acceptance.sh` remains the only deterministic PASS/FAIL check.
+
+### What pi-workflow can provide
+
+At the package level, pi-workflow can define the generic contract:
+- MR review happens **only after a PR/MR exists**
+- review is **manual trigger**, not automatic spam
+- the reviewer reads both the diff and surrounding repo context
+- memory is **advisory only**
+- comments should be evidence-backed and high-signal
+
+### What each project must define locally
+
+Because final review depends on the forge and team workflow, each project must define in its own `AGENTS.md`:
+- which forge it uses (`github`, `gitlab`, etc.)
+- how the reviewer is triggered
+- how to identify the PR/MR (URL, branch, current checkout, CLI)
+- whether to post inline comments, a summary comment, or both
+- whether memory-backed review is enabled
+- any repo-specific approval / no-auto-merge / reviewer etiquette rules
+
+In other words: **not all the work belongs to the project, but forge-specific behavior does.** pi-workflow can supply the workflow contract; the project supplies the local review policy.
 
 ## Choose models per agent
 

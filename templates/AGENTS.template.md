@@ -25,6 +25,36 @@ Every work item runs on `pi-workflow/<slug>` — **never pushes** (extension blo
 ## Human gates
 Approve the **target** (`acceptance.sh` + spec for `/pi-workflow spec`, or spec on the feature path) before implementation · plan approval · final review + merge/push. Between approvals, implementation runs **autonomously** — disagreements are logged for the final review.
 
+## Optional: MR review policy (edit for your repo)
+
+If this repo uses a final PR/MR reviewer after branch work is done, define the local policy here.
+
+### Forge
+- This repo uses: `github` / `gitlab` / other
+- Primary CLI or API path: `gh` / `glab` / custom
+
+### Trigger
+- MR review is **manual only** and runs **after** a PR/MR exists.
+- Define how to trigger it in this repo (explicit URL, current branch, issue comment, slash command, etc.).
+
+### Reviewer inputs
+The reviewer should read:
+- the PR/MR diff
+- the full checked-out repo
+- this `AGENTS.md`
+- `constitution.md`
+- optional project memory (for example Hindsight), if configured
+
+### Comment behavior
+- Post inline comments for concrete evidence-backed findings
+- Post one summary comment with blockers / fix-now / optional
+- Do not auto-approve, auto-merge, or auto-push unless this repo explicitly says otherwise
+
+### Memory rules
+- Memory is advisory only; direct code and executable evidence win
+- Suppress low-confidence or repetitive comments
+- If this repo enables Hindsight or similar memory, scope it to this repo only
+
 ---
 
 # constitution.md (project rules — edit per project)
